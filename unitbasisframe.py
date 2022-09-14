@@ -33,6 +33,7 @@ class UnitBasisFrame(ttk.Labelframe):
         self.decimals_places_combobox['values'] = decimal_values
         self.decimals_places_combobox['state'] = 'readonly'
         self.multiplier_display_entry['state'] = 'readonly'
+        self.markup_display_entry['state'] = 'readonly'
         self.discount_display_entry['state'] = 'readonly'
         self.gross_display_entry['state'] = 'readonly'
         multiplier_copy_button['text'] = 'Copy'
