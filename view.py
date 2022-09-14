@@ -3,7 +3,7 @@ from tkinter import ttk
 
 from unitbasisframe import UnitBasisFrame
 from unitformulaframe import UnitFormulaFrame
-from tickettomassloadframe import TicketToMassLoadFrame
+from ticketmassloadframe import TicketMassLoadFrame
 
 
 class View(tk.Frame):
@@ -24,10 +24,10 @@ class View(tk.Frame):
 
         UnitBasisFrame(self)
         UnitFormulaFrame(self)
-        TicketToMassLoadFrame(self)
+        TicketMassLoadFrame(self)
         unitBasisFrame = UnitBasisFrame(self)
         unitFormulaFrame = UnitFormulaFrame(self)
-        ticketToMassLoadFrame = TicketToMassLoadFrame(self)
+        ticketToMassLoadFrame = TicketMassLoadFrame(self)
         unitBasisFrame.grid(row=1, column=0, sticky='nsew')
         unitFormulaFrame.grid(row=2, column=0, sticky='nsew')
         ticketToMassLoadFrame.grid(row=1, column=1, rowspan=2, sticky='nsew')

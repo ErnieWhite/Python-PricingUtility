@@ -58,5 +58,3 @@ class UnitBasisFrame(ttk.Labelframe):
 
         self.gross_display_entry.grid(row=3, column=2, sticky='ew')
         gross_copy_button.grid(row=3, column=3)
-
-

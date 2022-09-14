@@ -1,7 +1,7 @@
 from tkinter import ttk
 
 
-class TicketToMassLoadFrame(ttk.Frame):
+class TicketMassLoadFrame(ttk.Frame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
