@@ -9,14 +9,14 @@ class App(tk.Tk):
         super().__init__()
 
         self.title('Tkinter MVC Demo')
+        self['bg'] = 'pink'
+        self.geometry('700x700')
 
         # create a model
         model = Model()
 
         # create a view and place it on the root window
         view = View(self)
-        view.pack(fill='both', expand=True)
-        self['background'] = 'red'
 
         # create a controller
         controller = Controller(model, view)

@@ -2,11 +2,12 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class UnitFormulaFrame(ttk.Labelframe):
+class UnitFormulaFrame(tk.Frame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        self['text'] = 'Find basis value'
+        # self['text'] = 'Find basis value'
+        self['bg'] = 'green'
 
         # create the labels
         unit_price_label = tk.Label(self)

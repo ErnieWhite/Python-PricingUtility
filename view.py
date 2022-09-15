@@ -1,6 +1,8 @@
 import tkinter as tk
+from tkinter import filedialog as fd
 from tkinter import ttk
 
+from os.path import expanduser
 from unitbasisframe import UnitBasisFrame
 from unitformulaframe import UnitFormulaFrame
 from ticketmassloadframe import TicketMassLoadFrame
@@ -13,28 +15,29 @@ class View(tk.Frame):
     UNIT_FORMULA = 'Unit Formula'
     TICKET_TO_MASS_LOAD = 'Ticket To Mass Load'
 
-    def __init__(self, master, **kwargs):
-        super().__init__(master, **kwargs)
+    def __init__(self, master):
+        super().__init__(master)
 
         self.master = master
         self.controller = None
         self.statusbar_info_label = None
-        self.frames = None
         self.switch_view_combobox = None
 
-        UnitBasisFrame(self)
-        UnitFormulaFrame(self)
-        TicketMassLoadFrame(self)
-        unitBasisFrame = UnitBasisFrame(self)
-        unitFormulaFrame = UnitFormulaFrame(self)
-        ticketToMassLoadFrame = TicketMassLoadFrame(self)
-        unitBasisFrame.grid(row=1, column=0, sticky='nsew')
-        unitFormulaFrame.grid(row=2, column=0, sticky='nsew')
-        ticketToMassLoadFrame.grid(row=1, column=1, rowspan=2, sticky='nsew')
+        # self.unitBasisFrame = UnitBasisFrame(self)
+        # self.unitFormulaFrame = UnitFormulaFrame(self)
+        # self.ticketMassLoadFrame = TicketMassLoadFrame(self)
+
+        # self.unitBasisFrame.grid(row=1, column=0, sticky='nsew')
+        # self.unitFormulaFrame.grid(row=2, column=0, sticky='nsew')
+        # self.ticketMassLoadFrame.grid(row=1, column=1, rowspan=2, sticky='nsew')
 
         self.create_menubar()
         self.create_toolbar()
         self.create_statusbar()
+
+        self['bg'] = 'red'
+
+        self.grid(row=0, column=0, sticky=tk.NSEW)
 
     def create_menubar(self):
         """
@@ -58,16 +61,16 @@ class View(tk.Frame):
         toolbar = tk.Frame(self, bd=1, relief=tk.RAISED)
 
         # create the toolbar widgets
-        open_button = ttk.Button(toolbar, command=self.open_file_command)
-        save_button = ttk.Button(toolbar, command=self.save_file_command)
-        customers_button = ttk.Button(toolbar, command=self.enter_customers)
+        open_button = tk.Button(toolbar, text='Open', command=self.open_file_command)
+        save_button = tk.Button(toolbar, text='Save', command=self.save_file_command)
+        customers_button = tk.Button(toolbar, text='Customers', command=self.enter_customers)
 
         # pack the toolbar widgets
         open_button.pack(side=tk.LEFT, padx=2, pady=2)
         save_button.pack(side=tk.LEFT, padx=2, pady=2)
         customers_button.pack(side=tk.LEFT, padx=2, pady=2)
 
-        toolbar.grid(row=0, column=0, columnspan=2, sticky='new')
+        toolbar.pack(fill='x', expand=True)
 
     def create_statusbar(self):
         statusbar = tk.Frame(self, bd=1, relief=tk.RAISED)
@@ -76,7 +79,7 @@ class View(tk.Frame):
         self.statusbar_info_label['text'] = 'Hello, anyone home'
         self.statusbar_info_label.pack(side=tk.RIGHT, padx=2, pady=2)
 
-        statusbar.grid(row=2, column=0, columnspan=2, sticky='sew')
+        statusbar.pack(fill='x', expand=True)
 
     def set_controller(self, controller):
         """
@@ -86,15 +89,36 @@ class View(tk.Frame):
         """
         self.controller = controller
 
+    @staticmethod
+    def get_ticket_file_name():
+        filetypes = (
+            ('tab separated files', '*.tsv'),
+            ('All files', '*.*'),
+        )
+
+        home_dir = expanduser('~')
+
+        filepath = fd.askopenfilename(
+            title='Open exported ticket',
+            initialdir=home_dir,
+            filetypes=filetypes,
+        )
+
+        return filepath
+
     def open_file_command(self):
         """
         Open a ticket export used in mass loads
         :return:
         """
-        if self.controller is not None:
-            print('Open file command')
-        else:
+        if self.controller is None:
             print('No controller')
+            return
+        filepath = self.get_ticket_file_name()
+        if not filepath:
+            return
+        self.controller.load_ticket_data(filepath=filepath)
+        return filepath
 
     def save_file_command(self):
         """
@@ -113,6 +137,16 @@ class View(tk.Frame):
         """
         if self.controller is not None:
             print('Save as file command')
+        else:
+            print('No controller')
+
+    def enter_customers(self):
+        """
+        Save the mass load file under a different name
+        :return:
+        """
+        if self.controller is not None:
+            print('Enter customer list')
         else:
             print('No controller')
 
