@@ -60,13 +60,14 @@ class View(tk.Frame):
         # create the toolbar widgets
         open_button = ttk.Button(toolbar, command=self.open_file_command)
         save_button = ttk.Button(toolbar, command=self.save_file_command)
+        customers_button = ttk.Button(toolbar, command=self.enter_customers)
 
         # pack the toolbar widgets
         open_button.pack(side=tk.LEFT, padx=2, pady=2)
         save_button.pack(side=tk.LEFT, padx=2, pady=2)
+        customers_button.pack(side=tk.LEFT, padx=2, pady=2)
 
         toolbar.grid(row=0, column=0, columnspan=2, sticky='new')
-
 
     def create_statusbar(self):
         statusbar = tk.Frame(self, bd=1, relief=tk.RAISED)
