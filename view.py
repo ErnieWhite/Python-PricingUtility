@@ -37,7 +37,7 @@ class View(tk.Frame):
 
         self['bg'] = 'red'
 
-        self.grid(row=0, column=0, sticky=tk.NSEW)
+        self.pack(fill='both', expand=True)
 
     def create_menubar(self):
         """
@@ -70,7 +70,7 @@ class View(tk.Frame):
         save_button.pack(side=tk.LEFT, padx=2, pady=2)
         customers_button.pack(side=tk.LEFT, padx=2, pady=2)
 
-        toolbar.pack(fill='x', expand=True)
+        toolbar.pack(side=tk.TOP, fill='x', expand=True)
 
     def create_statusbar(self):
         statusbar = tk.Frame(self, bd=1, relief=tk.RAISED)
@@ -79,7 +79,7 @@ class View(tk.Frame):
         self.statusbar_info_label['text'] = 'Hello, anyone home'
         self.statusbar_info_label.pack(side=tk.RIGHT, padx=2, pady=2)
 
-        statusbar.pack(fill='x', expand=True)
+        statusbar.pack(side=tk.BOTTOM, fill='x', expand=True)
 
     def set_controller(self, controller):
         """
