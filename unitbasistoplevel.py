@@ -2,12 +2,13 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class UnitBasisFrame(tk.Frame):
+class UnitBasisTopLevel(tk.Toplevel):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
+        self.title('Find Formula from Unit/Basis')
+
         # self['text'] = 'Find Formulas'
-        self['bg'] = 'brown'
         # create the input widgets
         unit_price_label = tk.Label(self, text='Unit Price')
         basis_value_label = tk.Label(self, text='Basis Value')
@@ -59,3 +60,9 @@ class UnitBasisFrame(tk.Frame):
 
         self.gross_display_entry.grid(row=3, column=2, sticky='ew')
         gross_copy_button.grid(row=3, column=3)
+
+    def destroy(self):
+        self.state('withdrawn')
+        self.master.unitBasisToggleButton.switch()
+
+

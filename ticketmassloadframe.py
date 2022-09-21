@@ -10,7 +10,6 @@ class TicketMassLoadFrame(tk.Frame):
         super().__init__(master, **kwargs)
 
         # self['text'] = 'Ticket Mass Load'
-        self['bg'] = 'blue'
 
         main_frame = tk.Frame(self)
 

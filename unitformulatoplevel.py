@@ -2,12 +2,14 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class UnitFormulaFrame(tk.Frame):
+class UnitFormulaTopLevel(tk.Toplevel):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
+        self.title('Find Basis Value From Unit/Formula')
+
         # self['text'] = 'Find basis value'
-        self['bg'] = 'green'
+        self.master = master
 
         # create the labels
         unit_price_label = tk.Label(self)
@@ -46,4 +48,6 @@ class UnitFormulaFrame(tk.Frame):
 
         copy_button.grid(row=3, column=2, sticky='e')
 
-
+    def destroy(self):
+        self.state('withdrawn')
+        self.master.unitFormulaToggleButton.switch()

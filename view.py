@@ -1,11 +1,13 @@
 import tkinter as tk
 from tkinter import filedialog as fd
-from tkinter import ttk
+import togglebutton
 
 from os.path import expanduser
-from unitbasisframe import UnitBasisFrame
-from unitformulaframe import UnitFormulaFrame
+
+import unitbasistoplevel
+import unitformulatoplevel
 from ticketmassloadframe import TicketMassLoadFrame
+from PIL import Image, ImageTk
 
 
 class View(tk.Frame):
@@ -22,20 +24,28 @@ class View(tk.Frame):
         self.controller = None
         self.statusbar_info_label = None
         self.switch_view_combobox = None
+        self.unitBasisToggleButton = None
+        self.unitFormulaToggleButton = None
 
-        # self.unitBasisFrame = UnitBasisFrame(self)
-        # self.unitFormulaFrame = UnitFormulaFrame(self)
-        # self.ticketMassLoadFrame = TicketMassLoadFrame(self)
+        on_image = Image.open('small_on.png')
+        off_image = Image.open('small_off.png')
+        on_image.reduce(50)
+        off_image.resize((50, 20))
+        # Define Our Images
+        self.on = ImageTk.PhotoImage(on_image)
+        self.off = ImageTk.PhotoImage(off_image)
 
-        # self.unitBasisFrame.grid(row=1, column=0, sticky='nsew')
-        # self.unitFormulaFrame.grid(row=2, column=0, sticky='nsew')
-        # self.ticketMassLoadFrame.grid(row=1, column=1, rowspan=2, sticky='nsew')
+        self.unitBasisTopLevel = unitbasistoplevel.UnitBasisTopLevel(self)
+        self.unitFormulaTopLevel = unitformulatoplevel.UnitFormulaTopLevel(self)
+        self.ticketMassLoadFrame = TicketMassLoadFrame(self)
+
+        self.unitBasisTopLevel.iconify()
+        self.unitFormulaTopLevel.iconify()
 
         self.create_menubar()
         self.create_toolbar()
+        self.ticketMassLoadFrame.pack(fill=tk.BOTH, expand=True)
         self.create_statusbar()
-
-        self['bg'] = 'red'
 
         self.pack(fill='both', expand=True)
 
@@ -58,19 +68,41 @@ class View(tk.Frame):
         menubar.add_cascade(label='File', menu=file_menu)
 
     def create_toolbar(self):
+
         toolbar = tk.Frame(self, bd=1, relief=tk.RAISED)
 
         # create the toolbar widgets
         open_button = tk.Button(toolbar, text='Open', command=self.open_file_command)
         save_button = tk.Button(toolbar, text='Save', command=self.save_file_command)
+        self.unitBasisToggleButton = togglebutton.ToggleButton(
+            toolbar,
+            text='Find Formula',
+            compound='left',
+            imageOn=self.on,
+            imageOff=self.off,
+            command=self.toggle_unitBasis,
+        )
+        self.unitFormulaToggleButton = togglebutton.ToggleButton(
+            toolbar,
+            text='Find Basis Value',
+            compound='left',
+            imageOn=self.on,
+            imageOff=self.off,
+            command=self.toggle_unitFormula,
+        )
+
         customers_button = tk.Button(toolbar, text='Customers', command=self.enter_customers)
 
         # pack the toolbar widgets
         open_button.pack(side=tk.LEFT, padx=2, pady=2)
         save_button.pack(side=tk.LEFT, padx=2, pady=2)
+        tk.Label(toolbar, text="|").pack(side=tk.LEFT, padx=2, pady=2)
         customers_button.pack(side=tk.LEFT, padx=2, pady=2)
+        tk.Label(toolbar, text="|").pack(side=tk.LEFT, padx=2, pady=2)
+        self.unitBasisToggleButton.pack(side=tk.LEFT, padx=2, pady=2)
+        self.unitFormulaToggleButton.pack(side=tk.LEFT, padx=2, pady=2)
 
-        toolbar.pack(side=tk.TOP, fill='x', expand=True)
+        toolbar.pack(side=tk.TOP, fill='x')
 
     def create_statusbar(self):
         statusbar = tk.Frame(self, bd=1, relief=tk.RAISED)
@@ -79,7 +111,7 @@ class View(tk.Frame):
         self.statusbar_info_label['text'] = 'Hello, anyone home'
         self.statusbar_info_label.pack(side=tk.RIGHT, padx=2, pady=2)
 
-        statusbar.pack(side=tk.BOTTOM, fill='x', expand=True)
+        statusbar.pack(side=tk.BOTTOM, fill='x')
 
     def set_controller(self, controller):
         """
@@ -157,3 +189,21 @@ class View(tk.Frame):
         """
         print('Exit application')
         self.master.destroy()
+
+    def toggle_unitBasis(self):
+        if self.unitBasisToggleButton.is_on:
+            self.unitBasisTopLevel.state('withdrawn')
+            self.unitBasisToggleButton.switch()
+        else:
+            self.unitBasisToggleButton.switch()
+            self.unitBasisTopLevel.state('normal')
+        print(self.unitBasisToggleButton.is_on)
+
+    def toggle_unitFormula(self):
+        if self.unitFormulaToggleButton.is_on:
+            self.unitFormulaTopLevel.state('withdrawn')
+            self.unitFormulaToggleButton.switch()
+        else:
+            self.unitFormulaToggleButton.switch()
+            self.unitFormulaTopLevel.state('normal')
+        print(self.unitFormulaToggleButton.is_on)
