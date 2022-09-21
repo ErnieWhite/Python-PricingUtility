@@ -27,8 +27,8 @@ class View(tk.Frame):
         self.unitBasisToggleButton = None
         self.unitFormulaToggleButton = None
 
-        on_image = Image.open('small_on.png')
-        off_image = Image.open('small_off.png')
+        on_image = Image.open('assets/small_on.png')
+        off_image = Image.open('assets/small_off.png')
         on_image.reduce(50)
         off_image.resize((50, 20))
         # Define Our Images
