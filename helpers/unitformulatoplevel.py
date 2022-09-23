@@ -50,4 +50,4 @@ class UnitFormulaTopLevel(tk.Toplevel):
 
     def destroy(self):
         self.state('withdrawn')
-        self.master.unitFormulaToggleButton.switch()
+        self.master.unitFormulaToggle.switch()

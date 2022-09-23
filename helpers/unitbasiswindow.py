@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class UnitBasisTopLevel(tk.Toplevel):
+class UnitBasisWindow(tk.Toplevel):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
@@ -63,6 +63,6 @@ class UnitBasisTopLevel(tk.Toplevel):
 
     def destroy(self):
         self.state('withdrawn')
-        self.master.unitBasisToggleButton.switch()
+        self.master.unitBasisToggle.switch()
 
 

@@ -1,11 +1,10 @@
 import tkinter as tk
-from tkinter import filedialog as fd
 from tkinter import ttk
 
-from display import Display
+from helpers.display import Display
 
 
-class TicketMassLoadFrame(tk.Frame):
+class MassLoad(tk.Frame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 

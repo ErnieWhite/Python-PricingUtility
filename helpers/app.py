@@ -1,7 +1,7 @@
 import tkinter as tk
-from controller import Controller
-from model import Model
-from view import View
+from helpers.controller import Controller
+from helpers.model import Model
+from helpers.view import View
 
 
 class App(tk.Tk):
@@ -9,7 +9,6 @@ class App(tk.Tk):
         super().__init__()
 
         self.title('Tkinter MVC Demo')
-        self['bg'] = 'pink'
         self.geometry('700x700')
 
         # create a model
