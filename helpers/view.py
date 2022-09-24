@@ -3,9 +3,9 @@ from tkinter import filedialog as fd
 
 from os.path import expanduser
 
-import helpers.massload as massload
-import helpers.unitbasiswindow as unitbasis
-import helpers.unitformulatoplevel as unitformula
+import helpers.massload as ml
+import helpers.unitbasis as ub
+import helpers.unitformula as uf
 import helpers.toggle as toggle
 
 from PIL import Image, ImageTk
@@ -40,9 +40,9 @@ class View(tk.Frame):
         self.open = ImageTk.PhotoImage(open_image)
         self.save = ImageTk.PhotoImage(save_image)
 
-        self.unitBasisTopLevel = unitbasis.UnitBasisWindow(self)
-        self.unitFormulaTopLevel = unitformula.UnitFormulaTopLevel(self)
-        self.ticketMassLoadFrame = massload.MassLoad(self)
+        self.unitBasisTopLevel = ub.UnitBasis(self)
+        self.unitFormulaTopLevel = uf.UnitFormula(self)
+        self.ticketMassLoadFrame = ml.MassLoad(self)
 
         self.unitBasisTopLevel.iconify()
         self.unitFormulaTopLevel.iconify()
