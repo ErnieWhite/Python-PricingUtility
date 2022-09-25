@@ -128,3 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 /data/TEST.TSV
+
+# PyCharm folder
+/.idea
+.idea
+.idea/
