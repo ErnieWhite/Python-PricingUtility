@@ -28,10 +28,10 @@ class View(tk.Frame):
         self.unitBasisToggle = None
         self.unitFormulaToggle = None
 
-        on_image = Image.open('./assets/on.png')
-        off_image = Image.open('./assets/off.png')
-        save_image = Image.open('./assets/open.png')
-        open_image = Image.open('./assets/save.png')
+        on_image = Image.open('../assets/on.png')
+        off_image = Image.open('../assets/off.png')
+        save_image = Image.open('../assets/open.png')
+        open_image = Image.open('../assets/save.png')
         on_image.reduce(50)
         off_image.resize((50, 20))
         # Define Our Images

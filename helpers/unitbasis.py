@@ -2,8 +2,6 @@ import re
 import tkinter as tk
 from tkinter import ttk
 
-from functools import partial
-
 
 class UnitBasis(tk.Toplevel):
     def __init__(self, master, **kwargs):
@@ -22,60 +20,60 @@ class UnitBasis(tk.Toplevel):
         # create our invalid commands
         # self['text'] = 'Find Formulas'
         # create the input widgets
-        unit_price_label = tk.Label(self.container, text='Unit Price')
-        basis_value_label = tk.Label(self.container, text='Basis Value')
-        decimals_places_label = tk.Label(self.container, text='Decimal Places')
+        unitPriceLabel = tk.Label(self.container, text='Unit Price')
+        basisValueLabel = tk.Label(self.container, text='Basis Value')
+        decimalsPlacesLabel = tk.Label(self.container, text='Decimal Places')
         vcmd = (self.register(self.onValidate),
                 '%P', '%W')
         ivcmd = (self.register(self.invalid),
                  '%W')
-        self.unit_price_entry = tk.Entry(self.container, validate='key', validatecommand=vcmd)
-        self.basis_value_entry = tk.Entry(self.container, validate='key', validatecommand=vcmd)
-        self.decimals_places_combobox = ttk.Combobox(self.container)
+        self.unitPriceEntry = tk.Entry(self.container, validate='key', validatecommand=vcmd, invalidcommand=ivcmd)
+        self.basisValueEntry = tk.Entry(self.container, validate='key', validatecommand=vcmd, invalidcommand=ivcmd)
+        self.decimalsPlacesCombobox = ttk.Combobox(self.container)
 
         # create the display widgets
-        self.multiplier_display_entry = tk.Entry(self.container)
-        self.discount_display_entry = tk.Entry(self.container)
-        self.markup_display_entry = tk.Entry(self.container)
-        self.gross_display_entry = tk.Entry(self.container)
+        self.multiplierDisplayEntry = tk.Entry(self.container)
+        self.discountDisplayEntry = tk.Entry(self.container)
+        self.markupDisplayEntry = tk.Entry(self.container)
+        self.grossDisplayEntry = tk.Entry(self.container)
 
         # create the copy buttons
-        multiplier_copy_button = tk.Button(self.container)
-        discount_copy_button = tk.Button(self.container)
-        markup_copy_button = tk.Button(self.container)
-        gross_copy_button = tk.Button(self.container)
+        multiplierCopyButton = tk.Button(self.container)
+        discountCopyButton = tk.Button(self.container)
+        markupCopyButton = tk.Button(self.container)
+        grossCopyButton = tk.Button(self.container)
 
-        # setup the widgets
-        decimal_values = ('Auto', '0', '1', '2', '3', '4', '5', '6')
-        self.decimals_places_combobox['values'] = decimal_values
-        self.decimals_places_combobox['state'] = 'readonly'
-        self.multiplier_display_entry['state'] = 'readonly'
-        self.markup_display_entry['state'] = 'readonly'
-        self.discount_display_entry['state'] = 'readonly'
-        self.gross_display_entry['state'] = 'readonly'
-        multiplier_copy_button['text'] = 'Copy'
-        discount_copy_button['text'] = 'Copy'
-        markup_copy_button['text'] = 'Copy'
-        gross_copy_button['text'] = 'Copy'
+        # set up the widgets
+        decimalValues = ('Auto', '0', '1', '2', '3', '4', '5', '6',)
+        self.decimalsPlacesCombobox['values'] = decimalValues
+        self.decimalsPlacesCombobox['state'] = 'readonly'
+        self.multiplierDisplayEntry['state'] = 'readonly'
+        self.markupDisplayEntry['state'] = 'readonly'
+        self.discountDisplayEntry['state'] = 'readonly'
+        self.grossDisplayEntry['state'] = 'readonly'
+        multiplierCopyButton['text'] = 'Copy'
+        discountCopyButton['text'] = 'Copy'
+        markupCopyButton['text'] = 'Copy'
+        grossCopyButton['text'] = 'Copy'
 
         # place the widgets
-        unit_price_label.grid(row=0, column=0)
-        self.unit_price_entry.grid(row=0, column=1, sticky='ew')
-        self.multiplier_display_entry.grid(row=0, column=2, sticky='ew')
-        multiplier_copy_button.grid(row=0, column=3)
+        unitPriceLabel.grid(row=0, column=0)
+        self.unitPriceEntry.grid(row=0, column=1, sticky='ew')
+        self.multiplierDisplayEntry.grid(row=0, column=2, sticky='ew')
+        multiplierCopyButton.grid(row=0, column=3)
 
-        basis_value_label.grid(row=1, column=0)
-        self.basis_value_entry.grid(row=1, column=1, sticky='ew')
-        self.discount_display_entry.grid(row=1, column=2, sticky='ew')
-        discount_copy_button.grid(row=1, column=3)
+        basisValueLabel.grid(row=1, column=0)
+        self.basisValueEntry.grid(row=1, column=1, sticky='ew')
+        self.discountDisplayEntry.grid(row=1, column=2, sticky='ew')
+        discountCopyButton.grid(row=1, column=3)
 
-        decimals_places_label.grid(row=2, column=0)
-        self.decimals_places_combobox.grid(row=2, column=1, sticky='ew')
-        self.markup_display_entry.grid(row=2, column=2, sticky='ew')
-        markup_copy_button.grid(row=2, column=3)
+        decimalsPlacesLabel.grid(row=2, column=0)
+        self.decimalsPlacesCombobox.grid(row=2, column=1, sticky='ew')
+        self.markupDisplayEntry.grid(row=2, column=2, sticky='ew')
+        markupCopyButton.grid(row=2, column=3)
 
-        self.gross_display_entry.grid(row=3, column=2, sticky='ew')
-        gross_copy_button.grid(row=3, column=3)
+        self.grossDisplayEntry.grid(row=3, column=2, sticky='ew')
+        grossCopyButton.grid(row=3, column=3)
 
         self.container.pack(side=tk.TOP, fill=tk.BOTH)
         self.statusBar.pack(side=tk.BOTTOM, fill=tk.X)
@@ -84,38 +82,40 @@ class UnitBasis(tk.Toplevel):
         self.state('withdrawn')
         self.master.unitBasisToggle.switch()
 
-    def onValidate(self, value, widget_name):
+    def onValidate(self, value, widgetName):
         """
         Validate the currency value.  Can have a dollar sigh and commas
         :param value: The value after the edit
+        :param widgetName: The name of the widget that is being validated.
+                            This is the TK name i.e. .!view.!unitbasis.!entry
         :return: boolean
         """
         print(value)
         pattern = r'(\$?(0?|[1-9][0-9]{0,2})(,\d{3})*(\.\d{1,4})?)$'
         print(f'Fullmatch result {re.fullmatch(pattern, value)}')
         if re.fullmatch(pattern, value) is None:
-            print(widget_name)
+            print(widgetName)
             return False
 
         # clear the message
-        self.show_message(widget_name)
+        self.show_message(widgetName)
         return True
 
-    def invalid(self, widget_name):
+    def invalid(self, widgetName):
         """
         Show the error message if the data is not valid
 
-        :param widget_name: used to change the font color of the named widget.  Name are in TK format not Tkinter format
+        :param widgetName: used to change the font color of the named widget.  Name are in TK format not Tkinter format
         :return:
         """
 
         self.show_message(
-            widget_name,
-            message='Please enter a valid curreny value. Can contain a dollar sign and commas',
+            widgetName,
+            message='Please enter a valid currency value. Can contain a dollar sign and commas',
             color='red'
         )
 
-    def show_message(self, widget_name, message='', color='black'):
+    def show_message(self, widgetName, message='', color='black'):
         """
         Show the error message in the status bar
         :param message:
@@ -123,8 +123,19 @@ class UnitBasis(tk.Toplevel):
         :return:
         """
         self.errorDisplay['text'] = message
-        print(widget_name)
-        if widget_name == '.!view.!unitbasis.!entry':
-            self.unit_price_entry['foreground'] = color
-        elif widget_name == '.!view.!unitformula.!entry':
-            self.basis_value_entry['forground'] = color
+        print(widgetName)
+        if widgetName == '.!view.!unitbasis.!entry':
+            self.unitPriceEntry['foreground'] = color
+        elif widgetName == '.!view.!unitformula.!entry':
+            self.basisValueEntry['forground'] = color
+
+    def is_float(self, value):
+        try:
+            float(value)
+            return True
+        except ValueError:
+            return False
+
+    def is_float_or_empty(self, value):
+        return self.is_float(value) or value == ''
+
