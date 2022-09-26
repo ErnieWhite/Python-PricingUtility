@@ -2,7 +2,7 @@
 import tkinter as tk
 
 
-class Toggle(tk.Button):
+class ToggleSwitch(tk.Button):
     def __init__(self, master, **kwargs):
 
         if 'imageOn' in kwargs:

@@ -6,7 +6,7 @@ from os.path import expanduser
 import helpers.massload as ml
 import helpers.unitbasis as ub
 import helpers.unitformula as uf
-import helpers.toggle as toggle
+import helpers.toggleswitch as toggle
 
 from PIL import Image, ImageTk
 
@@ -34,6 +34,7 @@ class View(tk.Frame):
         open_image = Image.open('../assets/save.png')
         on_image.reduce(50)
         off_image.resize((50, 20))
+
         # Define Our Images
         self.on = ImageTk.PhotoImage(on_image)
         self.off = ImageTk.PhotoImage(off_image)
@@ -79,7 +80,7 @@ class View(tk.Frame):
         # create the toolbar widgets
         open_button = tk.Button(toolbar, image=self.open, command=self.open_file_command)
         save_button = tk.Button(toolbar, image=self.save, command=self.save_file_command)
-        self.unitBasisToggle = toggle.Toggle(
+        self.unitBasisToggle = toggle.ToggleSwitch(
             toolbar,
             text='Find Formula',
             compound='left',
@@ -87,7 +88,7 @@ class View(tk.Frame):
             imageOff=self.off,
             command=self.toggle_unitBasis,
         )
-        self.unitFormulaToggle = toggle.Toggle(
+        self.unitFormulaToggle = toggle.ToggleSwitch(
             toolbar,
             text='Find Basis Value',
             compound='left',
